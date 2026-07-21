@@ -2,14 +2,11 @@
 
 /* ============================================================
    GLOBAL DROP SHIPPING — Design System (Tailwind v4)
-   ============================================================
-   Sab components (Header, FeaturedProducts, ProductDetails,
-   AddToCartButton, etc.) yahi tokens use karenge — taake
-   colors / spacing / shadows / buttons 100% consistent rahen.
+   Fully upgraded with proper Dark Mode support
    ============================================================ */
 
 @theme {
-  /* ---- Brand color scale (indigo-blue, premium) ---- */
+  /* ---- Brand scale ---- */
   --color-brand-50: #eef2ff;
   --color-brand-100: #e0e7ff;
   --color-brand-200: #c7d2fe;
@@ -22,12 +19,12 @@
   --color-brand-900: #312e81;
   --color-brand-950: #1e1b4b;
 
-  /* ---- Accent (ratings, sale badges) ---- */
+  /* ---- Accent ---- */
   --color-accent-400: #fbbf24;
   --color-accent-500: #f59e0b;
   --color-accent-600: #d97706;
 
-  /* ---- Fonts (Geist from next/font) ---- */
+  /* ---- Fonts ---- */
   --font-sans: var(--font-geist-sans), "Inter", system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
 
@@ -35,7 +32,7 @@
   --radius-card: 1rem;
   --radius-pill: 9999px;
 
-  /* ---- Shadows (soft, premium) ---- */
+  /* ---- Shadows ---- */
   --shadow-card: 0 1px 3px rgb(0 0 0 / 0.06), 0 1px 2px rgb(0 0 0 / 0.04);
   --shadow-card-hover: 0 18px 40px -12px rgb(79 70 229 / 0.28);
   --shadow-float: 0 10px 30px -8px rgb(0 0 0 / 0.15);
@@ -48,6 +45,19 @@
   :root {
     --background: #ffffff;
     --foreground: #0f172a;
+    --card-bg: #ffffff;
+    --border-color: #e5e7eb;
+  }
+
+  .dark {
+    --background: #0f172a;
+    --foreground: #f1f5f9;
+    --card-bg: #1e293b;
+    --border-color: #334155;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
@@ -56,29 +66,24 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-  }
-
-  html {
-    scroll-behavior: smooth;
+    transition: background 0.3s ease, color 0.3s ease;
   }
 }
 
 /* ============================================================
-   Reusable component classes
-   Har file inhi classes ko use karegi = consistent UI.
+   Components (Reusable Classes)
    ============================================================ */
 @layer components {
-  /* ---- Container ---- */
+  /* Container */
   .container-x {
     @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
-  /* ---- Section vertical rhythm ---- */
   .section {
     @apply py-16 sm:py-20;
   }
 
-  /* ---- Buttons (shared base) ---- */
+  /* Buttons */
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-xl
            font-semibold transition-all duration-200
@@ -86,55 +91,52 @@
            active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60;
   }
 
-  /* Primary solid (brand) */
   .btn-primary {
     @apply bg-brand-600 px-6 py-3 text-white shadow-sm
            hover:bg-brand-700 hover:shadow-md
            focus-visible:ring-brand-500;
   }
 
-  /* Light (cart button on dark header) */
-  .btn-light {
-    @apply bg-white px-4 py-2.5 text-brand-700 shadow-sm
-           hover:bg-brand-50 focus-visible:ring-white;
-  }
-
-  /* Outline */
   .btn-outline {
-    @apply border border-brand-200 bg-white px-6 py-3 text-brand-700
-           hover:border-brand-300 hover:bg-brand-50
-           focus-visible:ring-brand-500;
+    @apply border border-gray-300 bg-white px-6 py-3 text-gray-900
+           hover:bg-gray-50 focus-visible:ring-brand-500
+           dark:bg-gray-800 dark:text-white dark:border-gray-600
+           dark:hover:bg-gray-700;
   }
 
-  /* Ghost / icon */
   .btn-ghost {
-    @apply p-2.5 text-gray-600 hover:bg-gray-100 hover:text-brand-700
-           focus-visible:ring-brand-500;
+    @apply p-2.5 text-gray-600 hover:bg-gray-100
+           dark:text-gray-300 dark:hover:bg-gray-700;
   }
 
-  /* ---- Card ---- */
+  /* Card */
   .card {
-    @apply rounded-[var(--radius-card)] border border-gray-100 bg-white
-           shadow-[var(--shadow-card)] transition-all duration-300;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    transition: all 0.3s ease;
   }
 
-  /* ---- Badge / pill ---- */
+  /* Badge */
   .badge {
     @apply inline-flex items-center gap-1 rounded-full px-3 py-1
            text-xs font-semibold;
   }
 
-  /* ---- Input ---- */
+  /* Input */
   .input {
-    @apply w-full rounded-xl border border-gray-200 bg-white px-4 py-3
-           text-gray-900 placeholder-gray-400
-           transition focus:border-brand-400 focus:outline-none
-           focus:ring-2 focus:ring-brand-100;
+    @apply w-full rounded-xl border px-4 py-3
+           transition focus:outline-none focus:ring-2
+           focus:ring-brand-400;
+    background: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--foreground);
   }
 }
 
 /* ============================================================
-   Small animations
+   Small Animations
    ============================================================ */
 @keyframes fade-down {
   from {
@@ -149,11 +151,4 @@
 
 .animate-fade-down {
   animation: fade-down 0.25s ease-out;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
